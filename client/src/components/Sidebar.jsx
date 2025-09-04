@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "./context/AuthProvider";
 
 export default function Sidebar() {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <div className="hidden md:flex flex-col pt-5 w-[250px]">
@@ -78,6 +78,44 @@ export default function Sidebar() {
                 </svg>
               </span>
               <span className="ml-3 whitespace-nowrap">Dashboard</span>
+            </NavLink>
+          </li>
+
+                    <li>
+            <NavLink
+              to={"/savingsGoal"}
+              className="w-full text-[14px] text-gray-900 font-semibold rounded-lg hover:bg-gray-100 flex justify-start p-2 group"
+            >
+              <span className="w-6 h-6 flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 576 512"
+                  className="fill-gray-500 group-hover:fill-slate-950 transition-colors duration-200"
+                  height="24"
+                >
+                  <path d="M400 96l0 .7c-5.3-.4-10.6-.7-16-.7L256 96c-16.5 0-32.5 2.1-47.8 6c-.1-2-.2-4-.2-6c0-53 43-96 96-96s96 43 96 96zm-16 32c3.5 0 7 .1 10.4 .3c4.2 .3 8.4 .7 12.6 1.3C424.6 109.1 450.8 96 480 96l11.5 0c10.4 0 18 9.8 15.5 19.9l-13.8 55.2c15.8 14.8 28.7 32.8 37.5 52.9l13.3 0c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32l-32 0c-9.1 12.1-19.9 22.9-32 32l0 64c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-32-128 0 0 32c0 17.7-14.3 32-32 32l-32 0c-17.7 0-32-14.3-32-32l0-64c-34.9-26.2-58.7-66.3-63.2-112L68 304c-37.6 0-68-30.4-68-68s30.4-68 68-68l4 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-4 0c-11 0-20 9-20 20s9 20 20 20l31.2 0c12.1-59.8 57.7-107.5 116.3-122.8c12.9-3.4 26.5-5.2 40.5-5.2l128 0zm64 136a24 24 0 1 0 -48 0 24 24 0 1 0 48 0z" />
+                </svg>
+              </span>
+              <span className="ml-3 whitespace-nowrap">Set a goal</span>
+            </NavLink>
+          </li>
+
+                    <li>
+            <NavLink
+              onClick={() => logout()}
+              className="w-full text-[14px] text-gray-900 font-semibold rounded-lg hover:bg-gray-100 flex justify-start p-2 group"
+            >
+              <span className="w-6 h-6 flex items-center justify-center">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 512 512"
+                  height="24"
+                  className="fill-gray-500 group-hover:fill-slate-950 transition-colors duration-200"
+                >
+                  <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 224c0 17.7 14.3 32 32 32s32-14.3 32-32l0-224zM143.5 120.6c13.6-11.3 15.4-31.5 4.1-45.1s-31.5-15.4-45.1-4.1C49.7 115.4 16 181.8 16 256c0 132.5 107.5 240 240 240s240-107.5 240-240c0-74.2-33.8-140.6-86.6-184.6c-13.6-11.3-33.8-9.4-45.1 4.1s-9.4 33.8 4.1 45.1c38.9 32.3 63.5 81 63.5 135.4c0 97.2-78.8 176-176 176s-176-78.8-176-176c0-54.4 24.7-103.1 63.5-135.4z" />
+                </svg>
+              </span>
+              <span className="ml-3 whitespace-nowrap">Logout</span>
             </NavLink>
           </li>
         </ul>
