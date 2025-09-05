@@ -10,6 +10,7 @@ const errorHandler = require("./middlewares/errorHandler.js");
 
 const userRouter = require("./routes/user-route.js");
 const goalRouter = require("./routes/savingsGoal-route.js");
+const transactionRouter = require("./routes/transaction-route.js");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(cookieParser());
 
 app.use("/user", userRouter);
 app.use("/goal", goalRouter);
+app.use("/transaction", transactionRouter);
 
 app.use(errorHandler);
 
