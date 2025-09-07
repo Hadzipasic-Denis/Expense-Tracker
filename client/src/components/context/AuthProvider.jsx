@@ -9,16 +9,31 @@ export default function AuthProvider({ children }) {
 
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [allUserTransactions, setAllUserTransactions] = useState(null);
 
   useEffect(() => {
     axiosClient
       .get("/user/getProfile")
       .then((response) => {
         setUser(response.data);
-        console.log(response.data)
+        console.log(response.data);
       })
       .catch(() => {
         setUser(null);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+
+    axiosClient
+      .get("/transaction/getAllUserTransactions")
+      .then((response) => {
+        setAllUserTransactions(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error)
+        setAllUserTransactions(null);
       })
       .finally(() => {
         setIsLoading(false);
@@ -72,6 +87,7 @@ export default function AuthProvider({ children }) {
         value={{
           isLoading,
           user,
+          allUserTransactions,
           login,
           logout,
           createAccount,

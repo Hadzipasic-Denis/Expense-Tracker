@@ -86,8 +86,33 @@ const deleteTransaction = asyncWrapper(async (req, res, next) => {
   res.status(200).json({ message: "Transaction deleted!" });
 });
 
+const getAllUserTransactions = asyncWrapper(async (req, res, next) => {
+  const { id } = req.user; // user’s id from JWT or session
+
+  const transactions = await Transaction.find({ userId: id });
+  console.log(transactions);
+
+  res.status(200).json(transactions);
+});
+
+
+
+const getTransactionInformation = asyncWrapper(async (req, res, next) => {
+  const { id } = req.params;
+
+  const transaction = await Transaction.findById(id);
+
+  if (!transaction) {
+    throw new ErrorResponse("Transaction not found!", 404);
+  }
+
+  res.status(200).json(transaction);
+});
+
 module.exports = {
   createTransaction,
   editTransaction,
   deleteTransaction,
+  getAllUserTransactions,
+  getTransactionInformation
 };
