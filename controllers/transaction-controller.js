@@ -87,15 +87,49 @@ const deleteTransaction = asyncWrapper(async (req, res, next) => {
 });
 
 const getAllUserTransactions = asyncWrapper(async (req, res, next) => {
-  const { id } = req.user; // user’s id from JWT or session
+  const { id } = req.user;
+  const { category, type, fixedExpense, month, year } = req.query;
 
-  const transactions = await Transaction.find({ userId: id });
-  console.log(transactions);
+  const filter = { userId: id };
+
+  if (category) filter.category = category;
+  if (type) filter.type = type;
+  if (fixedExpense) filter.fixedExpense = fixedExpense;
+  if (month) filter.month = month.toLowerCase(); 
+  if (year) filter.year = Number(year);
+
+  const transactions = await Transaction.find(filter);
 
   res.status(200).json(transactions);
 });
 
 
+const getUserTransactions = asyncWrapper(async (req, res, next) => {
+  const { id } = req.user;
+  const { month, year } = req.query;
+
+  const filter = { userId: id };
+
+  if (month) filter.month = month.toLowerCase();
+  if (year) filter.year = Number(year);
+
+  const transactions = await Transaction.find(filter);
+
+  res.status(200).json(transactions);
+});
+
+const getAnnualUserTransactions = asyncWrapper(async (req, res, next) => {
+  const { id } = req.user;
+  const { year } = req.query;
+
+  const filter = { userId: id };
+
+  if (year) filter.year = Number(year);
+
+  const transactions = await Transaction.find(filter);
+
+  res.status(200).json(transactions);
+});
 
 const getTransactionInformation = asyncWrapper(async (req, res, next) => {
   const { id } = req.params;
@@ -113,6 +147,8 @@ module.exports = {
   createTransaction,
   editTransaction,
   deleteTransaction,
+  getUserTransactions,
+  getAnnualUserTransactions,
   getAllUserTransactions,
-  getTransactionInformation
+  getTransactionInformation,
 };

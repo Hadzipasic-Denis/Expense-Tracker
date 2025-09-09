@@ -1,9 +1,19 @@
 import { useForm } from "react-hook-form";
+import { useContext, useState, useEffect, useMemo } from "react";
+import { AuthContext } from "./context/AuthProvider";
 import { toast } from "react-toastify";
 import axiosClient from "./utils/axiosClient";
-import { useState } from "react";
 
 export default function SavingsGoalCard({ month }) {
+  const {
+    userGoals,
+    selectedMonth,
+    selectedYear,
+    setUserGoals,
+    setUserFiltererdGoals,
+    setAnnualGoals,
+  } = useContext(AuthContext);
+
   const [selectedYearForm, setSelectedYear] = useState(2025);
 
   const {
@@ -13,10 +23,53 @@ export default function SavingsGoalCard({ month }) {
     formState: { errors },
   } = useForm();
 
+  const existingGoal = useMemo(
+    () =>
+      userGoals?.find(
+        (goal) =>
+          goal.month === month && Number(goal.year) === Number(selectedYearForm)
+      ),
+    [userGoals, month, selectedYearForm]
+  );
+
+  useEffect(() => {
+    if (existingGoal) {
+      reset({
+        amount: existingGoal.amount,
+        year: existingGoal.year,
+        month: existingGoal.month,
+      });
+    } else {
+      reset({
+        amount: "",
+        year: selectedYearForm,
+        month,
+      });
+    }
+  }, [existingGoal, selectedYearForm, month, reset]);
+
   const handleCreate = (data) => {
     axiosClient
       .post(`/goal/newGoal`, data)
       .then(() => {
+        return axiosClient.get("/goal/getUserFilteredGoals", {
+          params: { month: selectedMonth, year: selectedYear },
+        });
+      })
+      .then((response) => {
+        setUserFiltererdGoals(response.data);
+
+        return axiosClient.get("/goal/getAnnualUserGoals", {
+          params: { year: selectedYear },
+        });
+      })
+      .then((response) => {
+        setAnnualGoals(response.data);
+
+        return axiosClient.get("/goal/getUserGoals");
+      })
+      .then((response) => {
+        setUserGoals(response.data);
         toast.success("New goal set!");
       })
       .catch(() => {
@@ -24,6 +77,32 @@ export default function SavingsGoalCard({ month }) {
       });
   };
 
+  const handleUpdate = (data) => {
+    axiosClient
+      .put(`/goal/updateGoal`, data)
+      .then(() => {
+        return axiosClient.get("/goal/getUserFilteredGoals", {
+          params: { month: selectedMonth, year: selectedYear },
+        });
+      })
+      .then((response) => {
+        setUserFiltererdGoals(response.data);
+        return axiosClient.get("/goal/getAnnualUserGoals", {
+          params: { year: selectedYear },
+        });
+      })
+      .then((response) => {
+        setAnnualGoals(response.data);
+        return axiosClient.get("/goal/getUserGoals");
+      })
+      .then((response) => {
+        setUserGoals(response.data);
+        toast.success("Savings goal updated!");
+      })
+      .catch(() => {
+        toast.error("Error! Something went wrong!");
+      });
+  };
 
   const years = [2025, 2026, 2027];
 
@@ -31,14 +110,14 @@ export default function SavingsGoalCard({ month }) {
     <div className="bg-white shadow-md rounded-xl p-4">
       <form
         className="mt-2"
-        onSubmit={handleSubmit(handleCreate)}
+        onSubmit={handleSubmit(existingGoal ? handleUpdate : handleCreate)}
       >
         <div className="flex flex-col">
           <label
             htmlFor="amount"
             className="mb-2 block text-sm font-medium text-[#07074D]"
           >
-            Savings goal for {month}:
+            Savings goal for {month.charAt(0).toUpperCase() + month.slice(1)}:
           </label>
           <div className="flex items-center gap-2">
             <input
@@ -77,11 +156,14 @@ export default function SavingsGoalCard({ month }) {
         <div className="flex justify-center mt-4">
           <button
             type="submit"
-            className={`text-lg font-medium py-1 px-8 text-white bg-blue-500 rounded cursor-pointer hover:shadow-lg transition transform hover:-translate-y-0.5
-
-      `}
+            className={`text-lg font-medium py-1 px-8 text-white rounded cursor-pointer hover:shadow-lg transition transform hover:-translate-y-0.5
+      ${
+        !existingGoal
+          ? "bg-gradient-to-b from-amber-400 to-yellow-700"
+          : "bg-gradient-to-b from-blue-600 to-sky-700"
+      }`}
           >
-            {"Submit"}
+            {existingGoal ? "Update" : "Submit"}
           </button>
         </div>
       </form>

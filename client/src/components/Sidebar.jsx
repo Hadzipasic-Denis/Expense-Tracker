@@ -1,12 +1,16 @@
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthProvider";
+import logo from "../assets/expenseTrackerLogo.jpg";
 
 export default function Sidebar() {
   const { user, logout } = useContext(AuthContext);
 
   return (
     <div className="hidden md:flex flex-col pt-5 w-[250px]">
+      <img src={logo} alt="logo" className="w-[50%] mx-auto" />
+      <p className="mx-auto font-semibold mb-4">Expense Tracker</p>
+      <hr className="w-[90%] mx-auto mb-2" />
       {!user ? (
         <ul className="space-y-2 pb-2 w-[90%] mx-auto">
           <li>
@@ -80,7 +84,7 @@ export default function Sidebar() {
               <span className="ml-3 whitespace-nowrap">Dashboard</span>
             </NavLink>
           </li>
-                    <li>
+          <li>
             <NavLink
               to={"/myEntries"}
               className="w-full text-[14px] text-gray-900 font-semibold rounded-lg hover:bg-gray-100 flex justify-start p-2 group"
@@ -98,6 +102,7 @@ export default function Sidebar() {
               <span className="ml-3 whitespace-nowrap">My Entries</span>
             </NavLink>
           </li>
+
           <li>
             <NavLink
               to={"/savingsGoal"}
@@ -116,6 +121,7 @@ export default function Sidebar() {
               <span className="ml-3 whitespace-nowrap">Set a goal</span>
             </NavLink>
           </li>
+
           <li>
             <NavLink
               to={"/newEntry"}

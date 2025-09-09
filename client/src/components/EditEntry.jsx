@@ -1,38 +1,81 @@
 import { useForm } from "react-hook-form";
-import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "./context/AuthProvider";
 import { toast } from "react-toastify";
 import axiosClient from "./utils/axiosClient";
 import Sidebar from "./Sidebar";
 
-export default function Entry() {
+export default function EditEntry() {
   const {
     selectedMonth,
     selectedYear,
     setUserAnnualTransactions,
     setUserTransactions,
     setAllUserTransactions,
-    selectedType,
     selectedCategory,
+    selectedType,
     selectedFixedExpense,
     selectedMonthEntries,
     selectedYearEntries,
   } = useContext(AuthContext);
 
+  const { id } = useParams();
+
   const [categoryType, setCategoryType] = useState("");
+  const [transaction, setTransaction] = useState(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    axiosClient
+      .get(`/transaction/getTransactionInformation/${id}`)
+      .then((response) => {
+        setTransaction(response.data);
+      })
+      .catch(() => {
+        setTransaction(null);
+      });
+  }, []);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      type: "",
+      category: "",
+      fixedExpense: "no",
+      description: "",
+      additionalInformation: "",
+      amount: "",
+      month: selectedMonth || "",
+      year: selectedYear || "",
+    },
+  });
+
+  useEffect(() => {
+    if (!transaction) return;
+
+    reset({
+      type: transaction.type || "",
+      category: transaction.category || "",
+      fixedExpense: transaction.fixedExpense || "no",
+      description: transaction.description || "",
+      additionalInformation: transaction.additionalInformation || "",
+      amount: transaction.amount || "",
+      month: transaction.month || selectedMonth,
+      year: transaction.year || selectedYear,
+    });
+
+    setCategoryType(transaction.type || "");
+  }, [transaction, reset, selectedMonth, selectedYear]);
 
   const onSubmit = (data) => {
     axiosClient
-      .post("/transaction/newEntry", data)
+      .put(`/transaction/editTransaction/${id}`, data)
       .then((response) => {
         return axiosClient.get("/transaction/getUserTransactions", {
           params: { month: selectedMonth, year: selectedYear },
@@ -46,7 +89,6 @@ export default function Entry() {
       })
       .then((response) => {
         setUserAnnualTransactions(response.data);
-
         return axiosClient.get("/transaction/getAllUserTransactions", {
           params: {
             category: selectedCategory || undefined,
@@ -59,8 +101,8 @@ export default function Entry() {
       })
       .then((response) => {
         setAllUserTransactions(response.data);
-        toast.success("Entry created!");
-        navigate("/dashboard");
+        toast.success("Update successful!");
+        navigate("/myEntries");
       })
       .catch(() => {
         toast.error("Error! Something went wrong!");
@@ -74,7 +116,7 @@ export default function Entry() {
         <div className="p-4 h-[100vh] w-full bg-gray-50 md:p-12">
           <div className="shadow rounded-lg px-4 py-8 mx-auto w-full max-w-[750px] bg-white md:px-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              New expense / income entry:
+              Edit income / expense entry:
             </h1>
             <form className="mt-6" onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap">
@@ -91,7 +133,6 @@ export default function Entry() {
                       onChange={(e) => setCategoryType(e.target.value)}
                       name="type"
                       id="type"
-                      defaultValue=""
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-3 text-base text-lg font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     >
                       <option value="" disabled>
@@ -120,7 +161,6 @@ export default function Entry() {
                       {...register("category", { required: true })}
                       name="category"
                       id="category"
-                      defaultValue=""
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-3 text-base text-lg font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     >
                       {categoryType === "" || categoryType !== "income" ? (
@@ -202,7 +242,6 @@ export default function Entry() {
                       {...register("fixedExpense", { required: true })}
                       name="fixedExpense"
                       id="fixedExpense"
-                      defaultValue="no"
                       className="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-3 text-base text-lg font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
                     >
                       <option value={"yes"}>Yes</option>
@@ -304,19 +343,24 @@ export default function Entry() {
                       >
                         <option value="2025">2025</option>
                         <option value="2026">2026</option>
-
                         <option value="2027">2027</option>
                       </select>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex justify-center">
+              <div className="flex justify-center gap-3">
                 <button
                   type="submit"
-                  className="bg-gradient-to-b from-gray-700 to-gray-900 text-lg font-medium py-2 px-10 mt-2 md:pd-2 text-white uppercase w-fit rounded cursor-pointer hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                  className="tracking-wide bg-gradient-to-b from-blue-500 to-blue-900 text-lg font-medium py-2 px-10 mt-2 md:pd-2 text-white w-fit rounded cursor-pointer hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
                 >
-                  Submit
+                  Update
+                </button>
+                <button
+                  onClick={() => navigate(-1)}
+                  className="tracking-wide bg-gradient-to-b from-red-500 to-red-900 text-lg font-medium py-2 px-10 mt-2 md:pd-2 text-white w-fit rounded cursor-pointer hover:shadow-lg font-medium transition transform hover:-translate-y-0.5"
+                >
+                  Cancel
                 </button>
               </div>
             </form>

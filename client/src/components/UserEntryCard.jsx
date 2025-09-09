@@ -1,13 +1,52 @@
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthProvider";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosClient from "./utils/axiosClient";
 
 export default function UserEntryCard({ transaction }) {
+  const {
+    selectedMonth,
+    selectedYear,
+    setUserTransactions,
+    setUserAnnualTransactions,
+    setAllUserTransactions,
+    selectedCategory,
+    selectedType,
+    selectedFixedExpense,
+    selectedMonthEntries,
+    selectedYearEntries
+  } = useContext(AuthContext);
 
   const deleteEntry = () => {
     axiosClient
       .delete(`/transaction/deleteTransaction/${transaction._id}`)
       .then(() => {
+        return axiosClient.get("/transaction/getUserTransactions", {
+          params: { month: selectedMonth, year: selectedYear },
+        });
+      })
+      .then((response) => {
+        setUserTransactions(response.data);
+        return axiosClient.get("/transaction/getAnnualUserTransactions", {
+          params: { year: selectedYear },
+        });
+      })
+      .then((response) => {
+        setUserAnnualTransactions(response.data);
+        return axiosClient.get("/transaction/getAllUserTransactions", {
+          params: {
+          category: selectedCategory || undefined,
+          type: selectedType || undefined,
+          fixedExpense: selectedFixedExpense || undefined,
+          month: selectedMonthEntries || undefined,
+          year: selectedYearEntries || undefined,
+        },
+        });
+        
+      })
+      .then((response) => {
+        setAllUserTransactions(response.data);
         toast.success("Entry deleted!");
       })
       .catch((error) => {
