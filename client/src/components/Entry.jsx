@@ -32,22 +32,22 @@ export default function Entry() {
 
   const onSubmit = (data) => {
     axiosClient
-      .post("//api/transaction/newEntry", data)
+      .post("/transaction/newEntry", data)
       .then((response) => {
-        return axiosClient.get("/api//transaction/getUserTransactions", {
+        return axiosClient.get("/transaction/getUserTransactions", {
           params: { month: selectedMonth, year: selectedYear },
         });
       })
       .then((response) => {
         setUserTransactions(response.data);
-        return axiosClient.get("/api//transaction/getAnnualUserTransactions", {
+        return axiosClient.get("/transaction/getAnnualUserTransactions", {
           params: { year: selectedYear },
         });
       })
       .then((response) => {
         setUserAnnualTransactions(response.data);
 
-        return axiosClient.get("/api//transaction/getAllUserTransactions", {
+        return axiosClient.get("/transaction/getAllUserTransactions", {
           params: {
             category: selectedCategory || undefined,
             type: selectedType || undefined,
