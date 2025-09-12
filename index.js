@@ -29,7 +29,7 @@ app.use("/api/user", userRouter);
 app.use("/api/goal", goalRouter);
 app.use("/api/transaction", transactionRouter);
 
-app.get("/*", (req, res) => {
+app.use(/(.*)/, (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
 
