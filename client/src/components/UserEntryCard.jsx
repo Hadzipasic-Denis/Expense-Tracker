@@ -97,7 +97,10 @@ export default function UserEntryCard({ transaction }) {
               transaction.type === "expense" ? "text-red-600" : "text-green-600"
             }`}
           >
-            € {transaction.amount}
+            €                     {transaction.amount.toLocaleString("de-DE", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
           </p>
 
           <div className="flex items-center space-x-3">

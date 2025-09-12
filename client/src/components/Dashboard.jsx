@@ -164,7 +164,7 @@ export default function Dashboard() {
               <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
                 <div className="flex flex-col gap-2 md:flex-row justify-between">
                   <div className="flex-shrink-0">
-                    <h3 className="mb-2 text-base font-semibold text-gray-500">
+                    <h3 className="mb-2 text-[15px] font-semibold text-gray-500">
                       Savings goal for{" "}
                       {selectedMonth.charAt(0).toUpperCase() +
                         selectedMonth.slice(1) +
@@ -182,7 +182,7 @@ export default function Dashboard() {
                         Set the goal
                       </NavLink>
                     ) : (
-                      <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                      <span className="text-2xl sm:text-2xl leading-none font-bold text-gray-900">
                         {userFilteredGoals[0]?.amount.toLocaleString("de-DE", {
                           minimumFractionDigits: 2,
                           maximumFractionDigits: 2,
@@ -192,18 +192,18 @@ export default function Dashboard() {
                     )}
                   </div>
                   <div className="flex-shrink-0 text-left">
-                    <h3 className="mb-2 text-base font-semibold text-gray-500">
+                    <h3 className="mb-2 text-[15px] font-semibold text-gray-500">
                       Savings according to goal:
                     </h3>
                     {!userFilteredGoals ? (
                       <>Loading</>
                     ) : userFilteredGoals.length === 0 ? (
-                      <span className="text-2xl sm:text-3xl leading-none font-bold">
+                      <span className="text-2xl sm:text-2xl leading-none font-bold">
                         -
                       </span>
                     ) : (
                       <span
-                        className={`text-2xl sm:text-3xl leading-none font-bold${
+                        className={`text-2xl sm:text-2xl leading-none font-bold${
                           currentSavings - userFilteredGoals[0]?.amount >= 0
                             ? " text-green-500"
                             : " text-red-500"
@@ -227,10 +227,10 @@ export default function Dashboard() {
               </div>
               <div className="flex flex-col gap-2 md:flex-row justify-around bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
                 <div className="flex-shrink-0 text-left">
-                  <h3 className="mb-2 text-base font-semibold text-gray-500">
+                  <h3 className="mb-2 text-[15px] font-semibold text-gray-500">
                     Income:
                   </h3>
-                  <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                  <span className="text-2xl sm:text-2xl leading-none font-bold text-gray-900">
                     {totalIncome.toLocaleString("de-DE", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
@@ -239,10 +239,10 @@ export default function Dashboard() {
                   </span>
                 </div>
                 <div className="flex-shrink-0 text-left">
-                  <h3 className="mb-2 text-base font-semibold text-gray-500">
+                  <h3 className="mb-2 text-[15px] font-semibold text-gray-500">
                     Expenses:
                   </h3>
-                  <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                  <span className="text-2xl sm:text-2xl leading-none font-bold text-gray-900">
                     {totalExpense.toLocaleString("de-DE", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
@@ -251,11 +251,11 @@ export default function Dashboard() {
                   </span>
                 </div>
                 <div className="flex-shrink-0 text-left">
-                  <h3 className="mb-2 text-base font-semibold text-gray-500">
+                  <h3 className="mb-2 text-[15px] font-semibold text-gray-500">
                     Savings:
                   </h3>
                   <span
-                    className={`text-2xl sm:text-3xl leading-none font-bold ${
+                    className={`text-2xl sm:text-2xl leading-none font-bold ${
                       currentSavings >= 0 ? "text-green-600" : "text-red-600"
                     }`}
                   >
@@ -270,10 +270,10 @@ export default function Dashboard() {
               <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
                 <div className="flex flex-col gap-2 md:flex-row  justify-between">
                   <div className="flex-shrink-0">
-                    <h3 className="mb-2 text-base font-semibold text-gray-500">
+                    <h3 className="mb-2 text-[15px] font-semibold text-gray-500">
                       Savings goal for {selectedYear}:
                     </h3>
-                    <span className="text-2xl sm:text-3xl leading-none font-bold text-gray-900">
+                    <span className="text-2xl sm:text-2xl leading-none font-bold text-gray-900">
                       {totalAnnualGoal.toLocaleString("de-DE", {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
@@ -282,11 +282,11 @@ export default function Dashboard() {
                     </span>
                   </div>
                   <div className="flex-shrink-0 text-left">
-                    <h3 className="mb-2 text-base font-semibold text-gray-500">
+                    <h3 className="mb-2 text-[15px] font-semibold text-gray-500">
                       Total difference:
                     </h3>
                     <span
-                      className={`text-2xl sm:text-3xl leading-none font-bold ${
+                      className={`text-2xl sm:text-2xl leading-none font-bold ${
                         currentAnnualSavings - totalAnnualGoal >= 0
                           ? "text-green-600"
                           : "text-red-600"
