@@ -28,7 +28,7 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     axiosClient
-      .get("/user/getProfile")
+      .get("/api//user/getProfile")
       .then((response) => {
         setUser(response.data);
       })
@@ -40,7 +40,7 @@ export default function AuthProvider({ children }) {
       });
 
     axiosClient
-      .get("/transaction/getAllUserTransactions", {
+      .get("/api//transaction/getAllUserTransactions", {
         params: {
           category: selectedCategory || undefined,
           type: selectedType || undefined,
@@ -60,7 +60,7 @@ export default function AuthProvider({ children }) {
       });
 
     axiosClient
-      .get("/transaction/getUserTransactions", {
+      .get("/api//transaction/getUserTransactions", {
         params: { month: selectedMonth, year: selectedYear },
       })
       .then((response) => {
@@ -74,7 +74,7 @@ export default function AuthProvider({ children }) {
       });
 
     axiosClient
-      .get("/transaction/getAnnualUserTransactions", {
+      .get("/api//transaction/getAnnualUserTransactions", {
         params: { year: selectedYear },
       })
       .then((response) => {
@@ -88,7 +88,7 @@ export default function AuthProvider({ children }) {
       });
 
     axiosClient
-      .get("/goal/getUserGoals")
+      .get("/api//goal/getUserGoals")
       .then((response) => {
         setUserGoals(response.data);
       })
@@ -100,7 +100,7 @@ export default function AuthProvider({ children }) {
       });
 
     axiosClient
-      .get("/goal/getUserFilteredGoals", {
+      .get("/api//goal/getUserFilteredGoals", {
         params: { month: selectedMonth, year: selectedYear },
       })
       .then((response) => {
@@ -114,7 +114,7 @@ export default function AuthProvider({ children }) {
       });
 
     axiosClient
-      .get("/goal/getAnnualUserGoals", {
+      .get("/api//goal/getAnnualUserGoals", {
         params: { year: selectedYear },
       })
       .then((response) => {
@@ -138,11 +138,11 @@ export default function AuthProvider({ children }) {
 
   const login = async (data) => {
     axiosClient
-      .post("/user/login", data)
+      .post("/api//user/login", data)
       .then((response) => {
         setUser(response.data);
 
-        return axiosClient.get("/transaction/getAllUserTransactions", {
+        return axiosClient.get("/api//transaction/getAllUserTransactions", {
           params: {
             category: selectedCategory || undefined,
             type: selectedType || undefined,
@@ -154,29 +154,29 @@ export default function AuthProvider({ children }) {
       })
       .then((response) => {
         setAllUserTransactions(response.data);
-        return axiosClient.get("/transaction/getUserTransactions", {
+        return axiosClient.get("/api//transaction/getUserTransactions", {
           params: { month: selectedMonth, year: selectedYear },
         });
       })
       .then((response) => {
         setUserTransactions(response.data);
-        return axiosClient.get("/transaction/getAnnualUserTransactions", {
+        return axiosClient.get("/api//transaction/getAnnualUserTransactions", {
           params: { year: selectedYear },
         });
       })
       .then((response) => {
         setUserAnnualTransactions(response.data);
-        return axiosClient.get("/goal/getUserGoals");
+        return axiosClient.get("/api//goal/getUserGoals");
       })
       .then((response) => {
         setUserGoals(response.data);
-        return axiosClient.get("/goal/getUserFilteredGoals", {
+        return axiosClient.get("/api//goal/getUserFilteredGoals", {
           params: { month: selectedMonth, year: selectedYear },
         });
       })
       .then((response) => {
         setUserFiltererdGoals(response.data);
-        return axiosClient.get("/goal/getAnnualUserGoals", {
+        return axiosClient.get("/api//goal/getAnnualUserGoals", {
           params: { year: selectedYear },
         });
       })
@@ -194,7 +194,7 @@ export default function AuthProvider({ children }) {
 
   const logout = async () => {
     axiosClient
-      .post("/user/logout")
+      .post("/api//user/logout")
       .then((response) => {
         setUser(null);
         navigate("/");
@@ -204,7 +204,7 @@ export default function AuthProvider({ children }) {
 
   const createAccount = async (data) => {
     axiosClient
-      .post("/user/register", data)
+      .post("/api//user/register", data)
       .then((response) => {
         toast.success("Account successfuly created!");
         navigate("/");

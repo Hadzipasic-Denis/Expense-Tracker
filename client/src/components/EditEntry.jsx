@@ -29,7 +29,7 @@ export default function EditEntry() {
 
   useEffect(() => {
     axiosClient
-      .get(`/transaction/getTransactionInformation/${id}`)
+      .get(`/api//transaction/getTransactionInformation/${id}`)
       .then((response) => {
         setTransaction(response.data);
       })
@@ -75,21 +75,21 @@ export default function EditEntry() {
 
   const onSubmit = (data) => {
     axiosClient
-      .put(`/transaction/editTransaction/${id}`, data)
+      .put(`/api//transaction/editTransaction/${id}`, data)
       .then((response) => {
-        return axiosClient.get("/transaction/getUserTransactions", {
+        return axiosClient.get("/api//transaction/getUserTransactions", {
           params: { month: selectedMonth, year: selectedYear },
         });
       })
       .then((response) => {
         setUserTransactions(response.data);
-        return axiosClient.get("/transaction/getAnnualUserTransactions", {
+        return axiosClient.get("/api//transaction/getAnnualUserTransactions", {
           params: { year: selectedYear },
         });
       })
       .then((response) => {
         setUserAnnualTransactions(response.data);
-        return axiosClient.get("/transaction/getAllUserTransactions", {
+        return axiosClient.get("/api//transaction/getAllUserTransactions", {
           params: {
             category: selectedCategory || undefined,
             type: selectedType || undefined,

@@ -50,23 +50,23 @@ export default function SavingsGoalCard({ month }) {
 
   const handleCreate = (data) => {
     axiosClient
-      .post(`/goal/newGoal`, data)
+      .post(`/api//goal/newGoal`, data)
       .then(() => {
-        return axiosClient.get("/goal/getUserFilteredGoals", {
+        return axiosClient.get("/api//goal/getUserFilteredGoals", {
           params: { month: selectedMonth, year: selectedYear },
         });
       })
       .then((response) => {
         setUserFiltererdGoals(response.data);
 
-        return axiosClient.get("/goal/getAnnualUserGoals", {
+        return axiosClient.get("/api//goal/getAnnualUserGoals", {
           params: { year: selectedYear },
         });
       })
       .then((response) => {
         setAnnualGoals(response.data);
 
-        return axiosClient.get("/goal/getUserGoals");
+        return axiosClient.get("/api//goal/getUserGoals");
       })
       .then((response) => {
         setUserGoals(response.data);
@@ -79,21 +79,21 @@ export default function SavingsGoalCard({ month }) {
 
   const handleUpdate = (data) => {
     axiosClient
-      .put(`/goal/updateGoal`, data)
+      .put(`/api//goal/updateGoal`, data)
       .then(() => {
-        return axiosClient.get("/goal/getUserFilteredGoals", {
+        return axiosClient.get("/api//goal/getUserFilteredGoals", {
           params: { month: selectedMonth, year: selectedYear },
         });
       })
       .then((response) => {
         setUserFiltererdGoals(response.data);
-        return axiosClient.get("/goal/getAnnualUserGoals", {
+        return axiosClient.get("/api//goal/getAnnualUserGoals", {
           params: { year: selectedYear },
         });
       })
       .then((response) => {
         setAnnualGoals(response.data);
-        return axiosClient.get("/goal/getUserGoals");
+        return axiosClient.get("/api//goal/getUserGoals");
       })
       .then((response) => {
         setUserGoals(response.data);

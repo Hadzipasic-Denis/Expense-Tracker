@@ -20,21 +20,21 @@ export default function UserEntryCard({ transaction }) {
 
   const deleteEntry = () => {
     axiosClient
-      .delete(`/transaction/deleteTransaction/${transaction._id}`)
+      .delete(`/api//transaction/deleteTransaction/${transaction._id}`)
       .then(() => {
-        return axiosClient.get("/transaction/getUserTransactions", {
+        return axiosClient.get("/api//transaction/getUserTransactions", {
           params: { month: selectedMonth, year: selectedYear },
         });
       })
       .then((response) => {
         setUserTransactions(response.data);
-        return axiosClient.get("/transaction/getAnnualUserTransactions", {
+        return axiosClient.get("/api//transaction/getAnnualUserTransactions", {
           params: { year: selectedYear },
         });
       })
       .then((response) => {
         setUserAnnualTransactions(response.data);
-        return axiosClient.get("/transaction/getAllUserTransactions", {
+        return axiosClient.get("/api//transaction/getAllUserTransactions", {
           params: {
           category: selectedCategory || undefined,
           type: selectedType || undefined,
