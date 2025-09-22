@@ -59,6 +59,7 @@ export default function UserEntries() {
           >
             <option value="">All Categories</option>
             <option value="Online shopping">Online shopping</option>
+            <option value="Groceries">Groceries</option>
             <option value="Rent">Rent</option>
             <option value="Utilities">Utilities</option>
             <option value="Car Maintenance">Car Maintenance</option>
@@ -70,6 +71,7 @@ export default function UserEntries() {
             <option value="Loan">Loan</option>
             <option value="Field trip / Vacation">Field trip / Vacation</option>
             <option value="Salary">Salary</option>
+            <option value="Child benefit">Child benefit</option>
             <option value="Tips">Tips</option>
             <option value="Extra job">Extra job</option>
             <option value="Gift / Voucher">Gift / Voucher</option>

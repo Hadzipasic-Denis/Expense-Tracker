@@ -171,6 +171,7 @@ export default function EditEntry() {
                           <option value={"Online shopping"}>
                             Online shopping
                           </option>
+                          <option value={"Groceries"}>Groceries</option>
                           <option value={"Rent"}>Rent</option>
                           <option value={"Utilities"}>Utilities</option>
                           <option value={"Car Maintenance"}>
@@ -191,6 +192,7 @@ export default function EditEntry() {
                       ) : (
                         <>
                           <option value="Salary">Salary</option>
+                          <option value="Child benefit">Child benefit</option>
                           <option value="Tips">Tips</option>
                           <option value="Extra job">Extra job</option>
                           <option value="Gift / Voucher">Gift / Voucher</option>

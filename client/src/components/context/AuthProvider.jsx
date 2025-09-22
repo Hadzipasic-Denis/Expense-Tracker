@@ -185,6 +185,7 @@ export default function AuthProvider({ children }) {
         navigate("/dashboard");
       })
       .catch(() => {
+        toast.error("Wrong credentials!")
         setUser(null);
       })
       .finally(() => {
@@ -209,7 +210,7 @@ export default function AuthProvider({ children }) {
         toast.success("Account successfuly created!");
         navigate("/");
       })
-      .catch(() => {
+      .catch((error) => {
         if (error.status === 409) {
           toast.error("That User ID is already taken!");
         } else {
