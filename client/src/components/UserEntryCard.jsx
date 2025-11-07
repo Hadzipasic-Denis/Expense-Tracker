@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import { AuthContext } from "./context/AuthProvider";
 import { NavLink } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,8 +15,10 @@ export default function UserEntryCard({ transaction }) {
     selectedType,
     selectedFixedExpense,
     selectedMonthEntries,
-    selectedYearEntries
+    selectedYearEntries,
   } = useContext(AuthContext);
+
+  const modalRef = useRef(null);
 
   const deleteEntry = () => {
     axiosClient
@@ -36,33 +38,35 @@ export default function UserEntryCard({ transaction }) {
         setUserAnnualTransactions(response.data);
         return axiosClient.get("/transaction/getAllUserTransactions", {
           params: {
-          category: selectedCategory || undefined,
-          type: selectedType || undefined,
-          fixedExpense: selectedFixedExpense || undefined,
-          month: selectedMonthEntries || undefined,
-          year: selectedYearEntries || undefined,
-        },
+            category: selectedCategory || undefined,
+            type: selectedType || undefined,
+            fixedExpense: selectedFixedExpense || undefined,
+            month: selectedMonthEntries || undefined,
+            year: selectedYearEntries || undefined,
+          },
         });
-        
       })
       .then((response) => {
         setAllUserTransactions(response.data);
         toast.success("Entry deleted!");
+        modalRef.current?.close();
       })
       .catch((error) => {
-        console.log(error)
-        toast.error("Error! Something went wrong!")
+        console.error(error);
+        toast.error("Error! Something went wrong!");
       });
   };
 
   return (
-    <div className="w-[95%] mx-auto mb-4 bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition  md:w-[80%]">
+    <div className="w-[95%] mx-auto mb-4 bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition md:w-[80%]">
       <div className="grid grid-cols-3 items-start">
         <div>
           <h2 className="text-md font-semibold text-gray-900 md:text-2xl">
             {transaction.description}
           </h2>
-          <p className="text-sm text-gray-500 md:text-lg">{transaction.category}</p>
+          <p className="text-sm text-gray-500 md:text-lg">
+            {transaction.category}
+          </p>
         </div>
 
         <div className="text-center">
@@ -97,18 +101,18 @@ export default function UserEntryCard({ transaction }) {
               transaction.type === "expense" ? "text-red-600" : "text-green-600"
             }`}
           >
-            €                     {transaction.amount.toLocaleString("de-DE", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+            €
+            {transaction.amount.toLocaleString("de-DE", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}
           </p>
 
           <div className="flex items-center space-x-3">
             <button
               className="hover:text-red-500 transition"
-              onClick={() => document.getElementById("deleteNotification").showModal()}
+              onClick={() => modalRef.current?.showModal()}
             >
-              {" "}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width={24}
@@ -118,7 +122,7 @@ export default function UserEntryCard({ transaction }) {
                 <path
                   fill="currentColor"
                   d="M7 3h2a1 1 0 0 0-2 0M6 3a2 2 0 1 1 4 0h4a.5.5 0 0 1 0 1h-.564l-1.205 8.838A2.5 2.5 0 0 1 9.754 15H6.246a2.5 2.5 0 0 1-2.477-2.162L2.564 4H2a.5.5 0 0 1 0-1zm1 3.5a.5.5 0 0 0-1 0v5a.5.5 0 0 0 1 0zM9.5 6a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0v-5a.5.5 0 0 1 .5-.5m-4.74 6.703A1.5 1.5 0 0 0 6.246 14h3.508a1.5 1.5 0 0 0 1.487-1.297L12.427 4H3.573z"
-                ></path>
+                />
               </svg>
             </button>
 
@@ -149,7 +153,8 @@ export default function UserEntryCard({ transaction }) {
           </p>
         </div>
       )}
-      <dialog id="deleteNotification" className="modal">
+
+      <dialog ref={modalRef} className="modal">
         <div className="modal-box">
           <div className="modal-action">
             <form method="dialog">
@@ -167,6 +172,7 @@ export default function UserEntryCard({ transaction }) {
                               <p className="text-sm text-red-600">
                                 You are about to delete this entry. After
                                 confirmation, this action cannot be undone!
+                                <br />
                               </p>
                             </div>
                           </div>
@@ -179,12 +185,19 @@ export default function UserEntryCard({ transaction }) {
 
               <div className="flex justify-end gap-2 mt-6">
                 <button
+                  type="button"
                   className="btn bg-red-500 text-white tracking-wider hover:bg-red-700 transition"
-                  onClick={() => deleteEntry()}
+                  onClick={deleteEntry}
                 >
                   Delete
                 </button>
-                <button className="btn">Close</button>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => modalRef.current?.close()}
+                >
+                  Close
+                </button>
               </div>
             </form>
           </div>
