@@ -45,6 +45,7 @@ export default function Navbar() {
                   <NavLink
                     to="/register"
                     className="block px-4 py-2 text-gray-900 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
                   >
                     Register
                   </NavLink>
@@ -53,6 +54,7 @@ export default function Navbar() {
                   <NavLink
                     to="/"
                     className="block px-4 py-2 text-gray-900 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
                   >
                     Login
                   </NavLink>
@@ -64,6 +66,7 @@ export default function Navbar() {
                   <NavLink
                     to="/dashboard"
                     className="block px-4 py-2 text-gray-900 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
                   >
                     Dashboard
                   </NavLink>
@@ -72,6 +75,7 @@ export default function Navbar() {
                   <NavLink
                     to="/myEntries"
                     className="block px-4 py-2 text-gray-900 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
                   >
                     My Entries
                   </NavLink>
@@ -80,6 +84,7 @@ export default function Navbar() {
                   <NavLink
                     to="/savingsGoal"
                     className="block px-4 py-2 text-gray-900 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
                   >
                     Set a Goal
                   </NavLink>
@@ -88,13 +93,17 @@ export default function Navbar() {
                   <NavLink
                     to="/newEntry"
                     className="block px-4 py-2 text-gray-900 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
                   >
                     New Entry
                   </NavLink>
                 </li>
                 <li>
                   <button
-                    onClick={() => logout()}
+                    onClick={() => {
+                      logout();
+                      setDropdownOpen(!dropdownOpen);
+                    }}
                     className="w-full text-left px-4 py-2 text-gray-900 hover:bg-gray-100"
                   >
                     Logout
