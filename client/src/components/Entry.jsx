@@ -305,10 +305,10 @@ export default function Entry() {
                         id="year"
                         className="w-[100%] rounded-md border border-[#e0e0e0] bg-white py-4 px-3 text-sm outline-none focus:border-[#6A64F1] focus:shadow-md"
                       >
-                        <option value="2025">2025</option>
                         <option value="2026">2026</option>
 
                         <option value="2027">2027</option>
+                        <option value="2028">2028</option>
                       </select>
                     </div>
                   </div>
