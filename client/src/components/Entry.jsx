@@ -24,6 +24,25 @@ export default function Entry() {
 
   const navigate = useNavigate();
 
+  const months = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
+
+ const monthName = months[new Date().getMonth()];
+
+  console.log(monthName)
+
   const {
     register,
     handleSubmit,
@@ -271,6 +290,7 @@ export default function Entry() {
                     <div className="flex gap-2">
                       <select
                         {...register("month", { required: true })}
+                        defaultValue={monthName}
                         id="month"
                         className="w-[100%] rounded-md border border-[#e0e0e0] bg-white py-4 px-3 text-sm outline-none focus:border-[#6A64F1] focus:shadow-md"
                       >
