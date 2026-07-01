@@ -41,8 +41,6 @@ export default function Entry() {
 
  const monthName = months[new Date().getMonth()];
 
-  console.log(monthName)
-
   const {
     register,
     handleSubmit,

@@ -34,7 +34,7 @@ export default function UserEntries() {
     setLocalType("");
     setLocalCategory("");
     setLocalFixedExpense("");
-    setLocalMonth("");
+    setLocalMonth(monthName);
     setLocalYear("");
 
     setSelectedType("");
@@ -43,6 +43,8 @@ export default function UserEntries() {
     setSelectedMonthEntries("");
     setSelectedYearEntries("");
   };
+
+  console.log(localMonth);
 
   return (
     <div className="flex">
