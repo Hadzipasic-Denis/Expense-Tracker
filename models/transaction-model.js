@@ -20,7 +20,7 @@ const transactionSchema = new Schema({
       "april",
       "may",
       "june",
-      "juli",
+      "july",
       "august",
       "september",
       "october",
