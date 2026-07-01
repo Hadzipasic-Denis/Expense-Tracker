@@ -197,6 +197,7 @@ export default function EditEntry() {
                           <option value="Tips">Tips</option>
                           <option value="Extra job">Extra job</option>
                           <option value="Gift / Voucher">Gift / Voucher</option>
+                          <option value="Tax refund">Tax refund</option>
                         </>
                       )}
                     </select>
